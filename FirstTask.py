@@ -6,7 +6,7 @@ from Pages.YandexResultPage import YandexResultPage
 from Pages.YandexSearchPage import YandexSearchPage
 
 
-class firstTask(unittest.TestCase):
+class FirstTask(unittest.TestCase):
     title = "Яндекс"
     stringForSearch = "Тензор"
     linksUrl = "tensor.ru"
