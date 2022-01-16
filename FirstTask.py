@@ -29,19 +29,20 @@ class FirstTask(unittest.TestCase):
         self.assertTrue(self.title in self.searchPage.get_title()), "It is not Yandex.ru"
 
     def test2_if_search_input_exist(self):
-        self.assertTrue(self.searchPage.get_inputElementSearch()), "Search Input was not found"
+        self.assertTrue(self.searchPage.get_input_element_search()), "Search Input was not found"
 
     def test3_if_suggestions_exist(self):
-        if self.searchPage.get_inputElementSearch():
-            self.searchPage.get_inputElementSearch().send_keys(self.stringForSearch)
+        if self.searchPage.get_input_element_search():
+            self.searchPage.get_input_element_search().send_keys(self.stringForSearch)
         self.assertTrue(self.searchPage.get_suggestions()), "Suggestions was not found"
+
 
     def test4_if_all_fist_five_link_contain_tensor_ru(self):
         i = 0
-        if self.searchPage.get_inputElementSearch():
-            self.searchPage.get_inputElementSearch().clear()
-            self.searchPage.get_inputElementSearch().send_keys(self.stringForSearch)
-            self.searchPage.get_inputElementSearch().submit()
+        if self.searchPage.get_input_element_search():
+            self.searchPage.get_input_element_search().clear()
+            self.searchPage.get_input_element_search().send_keys(self.stringForSearch)
+            self.searchPage.get_input_element_search().submit()
             self.resultPage = YandexResultPage(self.driver)
             searchResultLinks = self.resultPage.get_searchResultLinks()
             for searchResultLink in searchResultLinks[:5]:
