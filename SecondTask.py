@@ -4,11 +4,15 @@ from selenium.webdriver.chrome.service import Service
 from Pages.YandexSearchPage import YandexSearchPage
 from Pages.YandexImagesPage import YandexImagesPage
 from Pages.YandexImagesPage2 import YandexImagesPage2
+from Pages.YandexImagesPage3 import YandexImagesPage3
 
 
 class SecondTask(unittest.TestCase):
     title = "Яндекс"
     imagePageUrl = "https://yandex.ru/images/"
+    firstImageSrc = ''
+    #secondImageSrc = ''
+    #thirdImageSrc = ''
     seleniumWebDriverPath = r"C:\app\selenium\webdriver\chromedriver.exe"
     ser = Service(seleniumWebDriverPath)
     opt = webdriver.ChromeOptions()
@@ -22,8 +26,8 @@ class SecondTask(unittest.TestCase):
     @classmethod
     def tearDownClass(self):
         print("")
-        #self.driver.close()
-        #self.driver.quit()
+        self.driver.close()
+        self.driver.quit()
 
     def test1_if_its_yandex(self):
         self.searchPage.load()
@@ -47,10 +51,25 @@ class SecondTask(unittest.TestCase):
         inputText = imagesPage2.get_input_element_search_text()
         self.assertEqual(inputText, linkText), "Search Input has wrong text"
 
-    def test5_if(self):
+    def test5_if_first_image_was_opened(self):
         imagesPage2 = YandexImagesPage2(self.driver)
         imagesPage2.get_images()[0].click()
-        #<img class="MMImage-Origin" src="https://im0-tub-ru.yandex.net/i?id=a770083f33b16d99aa23fbb79cc4117f-l&amp;n=13">
+        imagesPage3 = YandexImagesPage3(self.driver)
+        self.assertTrue(imagesPage3.check_if_exist_img()), "Image didn't open"
+
+    def test6_image_change_if_click_forward(self):
+        global firstImageSrc
+        imagesPage3 = YandexImagesPage3(self.driver)
+        firstImageSrc = imagesPage3.get_image_url()
+        imagesPage3.get_next_button().click()
+        secondImageSrc = imagesPage3.get_image_url()
+        self.assertNotEqual(firstImageSrc, secondImageSrc), "Image did not change"
+
+    def test7_image_return_if_click_back(self):
+        imagesPage3 = YandexImagesPage3(self.driver)
+        imagesPage3.get_prev_button().click()
+        thirdImageSrc = imagesPage3.get_image_url()
+        self.assertEqual(firstImageSrc, thirdImageSrc), "Image is not same"
 
 
 if __name__ == "__main__":
