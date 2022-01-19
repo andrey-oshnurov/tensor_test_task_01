@@ -1,3 +1,4 @@
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
@@ -11,8 +12,11 @@ class YandexImagesPage(object):
         self.drv = driver
         self.currentUrl = self.drv.current_url
         self.waitVariable = WebDriverWait(self.drv, self.waitTimeout)
-        self.firstLinkElement = self.waitVariable.until(expected_conditions.element_to_be_clickable(self.firstLinkLocator))
-        self.firstLinkText = self.firstLinkElement.text
+        try:
+            self.firstLinkElement = self.waitVariable.until(expected_conditions.element_to_be_clickable(self.firstLinkLocator))
+            self.firstLinkText = self.firstLinkElement.text
+        except TimeoutException:
+            self.firstLinkText = ""
 
     def get_url(self):
         return self.currentUrl

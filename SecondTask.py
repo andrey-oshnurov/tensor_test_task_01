@@ -11,8 +11,8 @@ class SecondTask(unittest.TestCase):
     title = "Яндекс"
     imagePageUrl = "https://yandex.ru/images/"
     firstImageSrc = ''
-    #secondImageSrc = ''
-    #thirdImageSrc = ''
+    # secondImageSrc = ''
+    # thirdImageSrc = ''
     seleniumWebDriverPath = r"C:\app\selenium\webdriver\chromedriver.exe"
     ser = Service(seleniumWebDriverPath)
     opt = webdriver.ChromeOptions()
@@ -25,7 +25,6 @@ class SecondTask(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        print("")
         self.driver.close()
         self.driver.quit()
 
@@ -36,12 +35,15 @@ class SecondTask(unittest.TestCase):
     def test2_if_service_link_images_exist(self):
         self.assertTrue(self.searchPage.get_service_link_images()), "Search Input was not found"
 
+
     def test3_if_navigation_correct(self):
+        inputUrl = ''
         if self.searchPage.get_service_link_images():
             self.searchPage.click_images_link()
             self.driver.switch_to.window(self.driver.window_handles[1])
             imagesPage = YandexImagesPage(self.driver)
-        self.assertTrue(self.imagePageUrl in imagesPage.get_url()), "imagesPage has wrong url"
+            inputUrl = imagesPage.get_url()
+        self.assertTrue(self.imagePageUrl in inputUrl), "imagesPage has wrong url"
 
     def test4_if_input_has_correct_text(self):
         imagesPage = YandexImagesPage(self.driver)

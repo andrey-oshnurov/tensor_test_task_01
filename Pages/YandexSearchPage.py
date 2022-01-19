@@ -26,7 +26,7 @@ class YandexSearchPage(object):
             return False
 
     def get_suggestions(self):
-        return self.drv.find_elements(*self.suggestionLocator)
+        return len(self.drv.find_elements(*self.suggestionLocator)) > 0
 
     def get_service_link_images(self):
         try:
